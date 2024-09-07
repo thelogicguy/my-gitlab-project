@@ -51,7 +51,8 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             mkdir -p ~/my-app  # Create the deployment directory if it doesn't exist
-            7z x ~/app.zip -o/my-app
+            sudo chown -R $(whoami):$(whoami) ~/my-app
+            7z x ~/app.zip -o~/my-app
             cd ~/my-app
             rm -rf node_modules package-lock.json  # Ensure clean state
             npm install # Regenerate package-lock.json if needed
