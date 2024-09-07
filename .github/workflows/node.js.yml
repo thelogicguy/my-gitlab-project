@@ -53,7 +53,9 @@ jobs:
             mkdir -p ~/my-app  # Create the deployment directory if it doesn't exist
             unzip -o ~/app.zip -d ~/my-app
             cd ~/my-app
-            npm ci
+            rm -rf node_modules package-lock.json  # Ensure clean state
+            npm install # Regenerate package-lock.json if needed
+            npm ci # Run clean install to match package-lock.json
             pm2 stop my-app || true  # Stop the previous instance if running
             pm2 start server.js --name "my-app"
 
