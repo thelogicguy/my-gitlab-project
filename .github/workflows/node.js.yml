@@ -50,10 +50,10 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            mkdir -p ~/my-app  # Create the deployment directory if it doesn't exist
+            mkdir -p /home/ubuntu/my-app  # Create the deployment directory if it doesn't exist
             sudo chown -R $(whoami):$(whoami) ~/my-app
-            7z x ~/app.zip -o~/my-app
-            cd ~/my-app
+            7z x /home/ubuntu/app.zip -o/home/ubuntu/my-app
+            cd /home/ubuntu/my-app
             rm -rf node_modules package-lock.json  # Ensure clean state
             npm install # Regenerate package-lock.json if needed
             npm ci # Run clean install to match package-lock.json
