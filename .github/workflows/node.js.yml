@@ -50,8 +50,13 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
+            echo "Stopping previous application..."
+            pm2 stop my-app || true
+            echo "Deleting previous application..."
+            pm2 delete my-app || true
+            echo "Updating application files..."
             mkdir -p /home/ubuntu/my-app  # Create the deployment directory if it doesn't exist
-            sudo chown -R $(whoami):$(whoami) ~/my-app
+            sudo chown -R $(whoami):$(whoami) /home/ubuntu/my-app
             7z x /home/ubuntu/app.zip -o/home/ubuntu/my-app
             cd /home/ubuntu/my-app
             rm -rf node_modules package-lock.json  # Ensure clean state
